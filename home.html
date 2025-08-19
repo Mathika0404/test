@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generalcare Specialist Hospital</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+    header { background: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    nav a { margin: 0 10px; text-decoration: none; color: #333; font-weight: 500; cursor: pointer; }
+    section { padding: 60px 20px; display: none; }
+    section.active { display: block; }
+    h1 { margin-bottom: 10px; }
+    .back-btn { display: inline-flex; align-items: center; cursor: pointer; color: #6FC9E7; font-weight: bold; margin-bottom: 20px; }
+    .back-btn i { margin-right: 6px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <div class="logo"><i class="fas fa-hospital"></i> Generalcare</div>
+    <nav>
+      <a data-section="home">Home</a>
+      <a data-section="about">About Us</a>
+    </nav>
+  </header>
+
+  <!-- Home Section -->
+  <section id="home" class="active">
+    <h1>Welcome to Generalcare Hospital</h1>
+    <p>Premium treatments for a healthy lifestyle. Expert specialists with cutting-edge facilities.</p>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</div>
+    <h1>About Us</h1>
+    <p>Generalcare Specialist Hospital provides world-class healthcare with compassionate care for you and your family.</p>
+  </section>
+
+<script>
+  // Handle navigation
+  const navLinks = document.querySelectorAll("nav a");
+  const sections = document.querySelectorAll("section");
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      const target = link.getAttribute("data-section");
+
+      // Hide all, show target
+      sections.forEach(sec => sec.classList.remove("active"));
+      document.getElementById(target).classList.add("active");
+
+      // Push state to history (like Google back button)
+      history.pushState({ section: target }, "", "#" + target);
+    });
+  });
+
+  // Back button inside About
+  function goBack() {
+    history.back(); // behaves like browser back
+  }
+
+  // Handle browser navigation (back/forward buttons)
+  window.onpopstate = function(event) {
+    let section = event.state ? event.state.section : "home";
+    sections.forEach(sec => sec.classList.remove("active"));
+    document.getElementById(section).classList.add("active");
+  };
+
+  // Default state
+  history.replaceState({ section: "home" }, "", "#home");
+</script>
+
+</body>
+</html>
